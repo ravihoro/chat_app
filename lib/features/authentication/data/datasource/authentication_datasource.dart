@@ -14,6 +14,8 @@ abstract class AuthenticationDatasource {
   });
 
   Future<User> checkIfLoggedIn();
+
+  Future<void> logout();
 }
 
 class AuthenticationLocalDatasource implements AuthenticationDatasource {
@@ -74,5 +76,12 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
     } else {
       return loggedInUser;
     }
+  }
+
+  @override
+  Future<void> logout() async {
+    final userBox = await Hive.openBox<User>('logged_in_user');
+    await userBox.clear();
+    userBox.close();
   }
 }

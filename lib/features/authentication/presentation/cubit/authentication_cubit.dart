@@ -75,7 +75,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     );
   }
 
-  void logout() {
-    emit(state.copyWith());
+  void logout() async {
+    var failure = await _usecase.logout();
+    if (failure != null) {
+      emit(state.copyWith(error: failure.error));
+    } else {
+      emit(state.copyWith());
+    }
   }
 }

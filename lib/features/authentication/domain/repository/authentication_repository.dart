@@ -14,4 +14,6 @@ abstract class AuthenticationRepository {
   });
 
   Future<Either<Failure, User>> checkIfLoggedIn();
+
+  Future<Failure?> logout();
 }

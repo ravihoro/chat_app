@@ -53,4 +53,14 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(GenericFailure(error: e.toString()));
     }
   }
+
+  @override
+  Future<Failure?> logout() async {
+    try {
+      await datasource.logout();
+      return null;
+    } catch (e) {
+      return const GenericFailure(error: "Failed to logout");
+    }
+  }
 }

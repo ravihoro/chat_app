@@ -25,4 +25,8 @@ class AuthenticationUsecase {
   Future<Either<Failure, User>> checkIfLoggedIn() async {
     return repository.checkIfLoggedIn();
   }
+
+  Future<Failure?> logout() async {
+    return await repository.logout();
+  }
 }
