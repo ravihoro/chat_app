@@ -17,6 +17,10 @@ class ChatRemoteDatasource implements ChatDatasource {
     _channel.sink.add(message);
   }
 
+  void close() {
+    _channel.sink.close();
+  }
+
   @override
   Stream<Chat> fetchMessages() async* {
     await for (var e in _channel.stream) {

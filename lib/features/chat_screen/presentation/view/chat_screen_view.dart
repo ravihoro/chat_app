@@ -1,3 +1,4 @@
+import 'package:chat_app/features/authentication/presentation/cubit/authentication_cubit.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_cubit.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_state.dart';
 import 'package:chat_app/features/chat_screen/presentation/widget/chat_bubble.dart';
@@ -16,7 +17,6 @@ class _ChatScreenViewState extends State<ChatScreenView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<ChatCubit>().fetchRemoteMessage();
   }
@@ -26,6 +26,17 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chat'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              context.read<AuthenticationCubit>().logout();
+              context.read<ChatCubit>().closeSocket();
+            },
+            child: const Text(
+              'Logout',
+            ),
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {

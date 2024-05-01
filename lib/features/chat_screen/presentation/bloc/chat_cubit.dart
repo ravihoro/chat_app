@@ -26,6 +26,10 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
+  void closeSocket() {
+    usecase.close();
+  }
+
   void sendMessage(String message) {
     var chat = Chat(isSender: true, message: message);
     emit(state.copyWith(chat));

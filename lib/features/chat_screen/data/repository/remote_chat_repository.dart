@@ -15,6 +15,11 @@ class RemoteChatRepositoryImpl implements RemoteChatRepository {
   }
 
   @override
+  void close() {
+    datasource.close();
+  }
+
+  @override
   Stream<Either<Failure, Chat>> fetchMessages() async* {
     try {
       var chatStream = datasource.fetchMessages();

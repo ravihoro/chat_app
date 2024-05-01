@@ -9,5 +9,7 @@ abstract class LocalChatRepository {
 abstract class RemoteChatRepository {
   void sendMessage(String message);
 
+  void close();
+
   Stream<Either<Failure, Chat>> fetchMessages();
 }

@@ -16,6 +16,10 @@ class ChatUsecase {
     throw Exception();
   }
 
+  void close() {
+    remoteRepository.close();
+  }
+
   Stream<Either<Failure, Chat>> fetchRemoteChat() async* {
     await for (var e in remoteRepository.fetchMessages()) {
       yield (e);

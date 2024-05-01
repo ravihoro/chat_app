@@ -52,7 +52,7 @@ class _AppViewState extends State<AppView> {
         } else {
           return BlocProvider(
             create: (_) => sl<ChatCubit>(),
-            child: ChatScreenView(),
+            child: const ChatScreenView(),
           );
         }
       },
