@@ -15,7 +15,7 @@ class ChatLocalDatasource implements ChatDatasource<Future<List<Chat>>> {
     final userBox = await Hive.openBox<User>('logged_in_user');
     final loggedInUser = userBox.isEmpty ? null : userBox.getAt(0);
     if (loggedInUser != null) {
-      var messages = loggedInUser.messages;
+      var messages = [...loggedInUser.messages];
 
       await userBox.close();
       return messages;
@@ -25,8 +25,7 @@ class ChatLocalDatasource implements ChatDatasource<Future<List<Chat>>> {
 }
 
 class ChatRemoteDatasource implements ChatDatasource<Stream<Chat>> {
-  IOWebSocketChannel? _channel =
-      IOWebSocketChannel.connect('wss://echo.websocket.org');
+  late IOWebSocketChannel? _channel;
 
   storeMessage(Chat chat) async {
     final userBox = await Hive.openBox<User>('logged_in_user');
@@ -42,8 +41,8 @@ class ChatRemoteDatasource implements ChatDatasource<Stream<Chat>> {
     storeMessage(Chat(isSender: true, message: message));
   }
 
-  void close() {
-    _channel?.sink.close();
+  void close() async {
+    await _channel?.sink.close();
   }
 
   void restartChat() async {
@@ -53,11 +52,11 @@ class ChatRemoteDatasource implements ChatDatasource<Stream<Chat>> {
     await userBox.put(0, loggedInUser);
     await userBox.close();
     _channel?.sink.close();
-    _channel = IOWebSocketChannel.connect('wss://echo.websocket.org');
   }
 
   @override
   Stream<Chat> fetchMessages() async* {
+    _channel = IOWebSocketChannel.connect('wss://echo.websocket.org');
     await for (var e in _channel!.stream) {
       var chat = Chat(isSender: false, message: e);
       storeMessage(chat);

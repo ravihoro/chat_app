@@ -18,6 +18,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   })  : _usecase = usecase,
         super(initialState ?? const AuthenticationState());
 
+  resetState() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      emit(state.copyWith());
+    });
+  }
+
   emitUser(User? user) {
     emit(state.copyWith(user: user));
   }
@@ -44,13 +50,15 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String username,
     required String password,
   }) async {
-    var either = await _usecase.login(username: username, password: password);
+    var either = await _usecase.login(
+      username: username,
+      password: password,
+    );
     either.fold(
-      (l) => emit(
-        state.copyWith(
-          error: l.error,
-        ),
-      ),
+      (l) {
+        emit(state.copyWith(error: l.error));
+        resetState();
+      },
       (r) => emit(
         state.copyWith(user: r),
       ),
@@ -66,11 +74,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       password: password,
     );
     either.fold(
-      (l) => emit(
-        state.copyWith(
-          error: l.error,
-        ),
-      ),
+      (l) {
+        emit(state.copyWith(error: l.error));
+        resetState();
+      },
       (r) => emit(
         state.copyWith(user: r),
       ),
@@ -81,6 +88,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     var failure = await _usecase.logout();
     if (failure != null) {
       emit(state.copyWith(error: failure.error));
+      resetState();
     } else {
       emit(state.copyWith());
     }

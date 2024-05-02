@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/core/error/exception.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:hive/hive.dart';
@@ -22,6 +24,7 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
   saveUser(User user) async {
     final userBox = await Hive.openBox<User>('logged_in_user');
     await userBox.clear();
+    log("save user: ${user.messages.length}");
     await userBox.add(
       User(
         username: user.username,
@@ -29,7 +32,7 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
         messages: user.messages,
       ),
     );
-    userBox.close();
+    await userBox.close();
   }
 
   @override
@@ -88,7 +91,30 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
   @override
   Future<void> logout() async {
     final userBox = await Hive.openBox<User>('logged_in_user');
+
+    final usersBox = await Hive.openBox<User>('users');
+
+    var currentUser = userBox.values.first;
+
+    for (var e in usersBox.values) {
+      log("e: ${e.messages.length} current: ${currentUser.messages.length}");
+      if (e.username == currentUser.username) {
+        e.messages = currentUser.messages;
+
+        usersBox.putAt(
+          usersBox.values.toList().indexOf(e),
+          User(
+            username: e.username,
+            password: e.password,
+            messages: e.messages,
+          ),
+        );
+        break;
+      }
+    }
+
     await userBox.clear();
-    userBox.close();
+    await userBox.close();
+    await usersBox.close();
   }
 }

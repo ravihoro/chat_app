@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_cubit.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_state.dart';
 import 'package:chat_app/features/chat_screen/presentation/widget/chat_bubble.dart';
@@ -18,7 +20,10 @@ class _ChatScreenViewState extends State<ChatScreenView> {
   @override
   void initState() {
     super.initState();
-    context.read<ChatCubit>().fetchLocalMessage();
+    log("chat screen initstate");
+    Future.delayed(const Duration(milliseconds: 200), () {
+      context.read<ChatCubit>().fetchLocalMessage();
+    });
     context.read<ChatCubit>().fetchRemoteMessage();
   }
 
@@ -72,11 +77,13 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       onPressed: () {
-                        context.read<ChatCubit>().sendMessage(
-                              controller.text.trim(),
-                            );
+                        if (controller.text.trim().isNotEmpty) {
+                          context.read<ChatCubit>().sendMessage(
+                                controller.text.trim(),
+                              );
 
-                        controller.clear();
+                          controller.clear();
+                        }
                         FocusScope.of(context).unfocus();
                       },
                     ),

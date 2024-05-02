@@ -17,6 +17,7 @@ class ChatCubit extends Cubit<ChatState> {
     either.fold(
       (l) => log(l.error),
       (r) {
+        log("local message ${r.length}");
         for (var chat in r) {
           emit(state.copyWith(chat: chat));
         }
