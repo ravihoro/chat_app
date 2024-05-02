@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class SignUpState extends Equatable {
-  final String username;
-  final String password;
+  final String? username;
+  final String? password;
   final bool isValid;
 
   const SignUpState({
-    this.username = "",
-    this.password = "",
+    this.username,
+    this.password,
     this.isValid = false,
   });
 

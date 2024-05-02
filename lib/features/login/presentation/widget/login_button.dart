@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginButton extends StatelessWidget {
+  const LoginButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
@@ -17,12 +19,13 @@ class LoginButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
             ),
           ),
-          onPressed: state.isValid == null || !state.isValid!
+          onPressed: !state.isValid
               ? null
               : () {
+                  var loginState = context.read<LoginCubit>().state;
                   context.read<AuthenticationCubit>().login(
-                        username: context.read<LoginCubit>().state.username!,
-                        password: context.read<LoginCubit>().state.password!,
+                        username: loginState.username!,
+                        password: loginState.password!,
                       );
                 },
           child: const Text('Login'),

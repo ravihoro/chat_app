@@ -4,16 +4,16 @@ class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final String fieldKey;
   final Function(String?)? onChanged;
-  final String? Function(String?)? validator;
   final bool obscureText;
+  final String? errorText;
 
   const CustomTextFormField({
     required this.labelText,
     required this.fieldKey,
     this.onChanged,
-    this.validator,
     this.obscureText = false,
     super.key,
+    this.errorText,
   });
 
   @override
@@ -21,10 +21,10 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       key: ValueKey(fieldKey),
       onChanged: onChanged,
-      validator: validator,
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,
+        errorText: errorText,
       ),
     );
   }

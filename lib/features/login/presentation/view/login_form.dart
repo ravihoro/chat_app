@@ -9,22 +9,22 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const LoginUsernameInput(),
-        const SizedBox(
+        LoginUsernameInput(),
+        SizedBox(
           height: 8.0,
         ),
-        const LoginPasswordInput(),
-        const SizedBox(
+        LoginPasswordInput(),
+        SizedBox(
           height: 8.0,
         ),
         LoginButton(),
-        const SizedBox(
+        SizedBox(
           height: 8.0,
         ),
-        const SignUpNavigationButton(),
+        SignUpNavigationButton(),
       ],
     );
   }

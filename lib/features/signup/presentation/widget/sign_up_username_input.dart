@@ -1,3 +1,4 @@
+import 'package:chat_app/core/utils/validators.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:chat_app/features/signup/presentation/bloc/sign_up_cubit.dart';
 import 'package:chat_app/features/signup/presentation/bloc/sign_up_state.dart';
@@ -13,9 +14,11 @@ class SignUpUsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return CustomTextFormField(
-          fieldKey: 'signUpForm_nameInput_textField',
+          fieldKey: 'signUpForm_usernameInput_textField',
           onChanged: (name) => context.read<SignUpCubit>().setUsername(name),
           labelText: 'Username',
+          errorText:
+              state.username == null ? null : isValidUsername(state.username),
         );
       },
     );

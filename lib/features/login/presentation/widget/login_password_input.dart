@@ -1,3 +1,4 @@
+import 'package:chat_app/core/utils/validators.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:chat_app/features/login/presentation/bloc/login_cubit.dart';
 import 'package:chat_app/features/login/presentation/bloc/login_state.dart';
@@ -18,6 +19,8 @@ class LoginPasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.read<LoginCubit>().setPassword(password),
           labelText: 'Password',
+          errorText:
+              state.password == null ? null : isValidPassword(state.password),
         );
       },
     );

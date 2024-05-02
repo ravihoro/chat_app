@@ -13,7 +13,7 @@ class SignUpButton extends StatelessWidget {
       buildWhen: ((previous, current) => previous.isValid != current.isValid),
       builder: (context, state) {
         return ElevatedButton(
-          key: ValueKey("signUpForm_signUp_elevatedButton"),
+          key: const ValueKey("signUpForm_signUp_elevatedButton"),
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -21,9 +21,10 @@ class SignUpButton extends StatelessWidget {
           ),
           onPressed: state.isValid
               ? () {
+                  var state = context.read<SignUpCubit>().state;
                   context.read<AuthenticationCubit>().signUp(
-                        username: state.username,
-                        password: state.password,
+                        username: state.username!,
+                        password: state.password!,
                       );
                 }
               : null,

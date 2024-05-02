@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/features/chat_screen/domain/entity/chat.dart';
 import 'package:chat_app/features/chat_screen/domain/usecase/chat_usecase.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_state.dart';
@@ -13,7 +15,7 @@ class ChatCubit extends Cubit<ChatState> {
   void fetchLocalMessage() async {
     var either = await usecase.fetchLocalChat();
     either.fold(
-      (l) => print(l.error),
+      (l) => log(l.error),
       (r) {
         for (var chat in r) {
           emit(state.copyWith(chat: chat));
@@ -26,7 +28,7 @@ class ChatCubit extends Cubit<ChatState> {
     var stream = usecase.fetchRemoteChat();
     await for (var e in stream) {
       e.fold(
-        (l) => print(
+        (l) => log(
           e.toString(),
         ),
         (r) => emit(

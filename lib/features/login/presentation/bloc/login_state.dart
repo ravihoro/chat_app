@@ -3,12 +3,12 @@ import 'package:equatable/equatable.dart';
 class LoginState extends Equatable {
   final String? username;
   final String? password;
-  final bool? isValid;
+  final bool isValid;
 
   const LoginState({
     this.username,
     this.password,
-    this.isValid,
+    this.isValid = false,
   });
 
   LoginState copyWith({

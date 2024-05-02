@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/authentication/domain/usecase/authentication_usecase.dart';
 import 'package:equatable/equatable.dart';
@@ -27,7 +29,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   void checkIfLoggedIn() async {
     var either = await _usecase.checkIfLoggedIn();
     either.fold(
-      (l) => print(
+      (l) => log(
         l.toString(),
       ),
       (r) => emit(
@@ -43,6 +45,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String password,
   }) async {
     var either = await _usecase.login(username: username, password: password);
+    log("cubit login");
     either.fold(
       (l) => emit(
         state.copyWith(

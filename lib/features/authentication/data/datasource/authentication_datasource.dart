@@ -45,10 +45,12 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
       log("${user.username} ${user.password}");
       if (user.username == username && user.password == password) {
         saveUser(user);
+        await userBox.close();
         return user;
       }
     }
-    userBox.close();
+    await userBox.close();
+    log("throw login exception");
     throw const LoginException(message: 'Username/Password incorrect');
   }
 
