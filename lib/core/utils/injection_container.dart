@@ -28,9 +28,16 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerLazySingleton(() => LocalChatRepositoryImpl());
   sl.registerLazySingleton(
-      () => RemoteChatRepositoryImpl(datasource: sl<ChatRemoteDatasource>()));
+    () => LocalChatRepositoryImpl(
+      datasource: sl<ChatLocalDatasource>(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => RemoteChatRepositoryImpl(
+      datasource: sl<ChatRemoteDatasource>(),
+    ),
+  );
 
   sl.registerLazySingleton(() => ChatRemoteDatasource());
   sl.registerLazySingleton(() => ChatLocalDatasource());

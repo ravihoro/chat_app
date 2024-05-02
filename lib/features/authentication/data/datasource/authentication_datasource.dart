@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/core/error/exception.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:hive/hive.dart';
@@ -22,7 +24,13 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
   saveUser(User user) async {
     final userBox = await Hive.openBox<User>('logged_in_user');
     await userBox.clear();
-    await userBox.add(User(username: user.username, password: user.password));
+    await userBox.add(
+      User(
+        username: user.username,
+        password: user.password,
+        messages: user.messages,
+      ),
+    );
     userBox.close();
   }
 
@@ -34,6 +42,7 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
     var userBox = await Hive.openBox<User>('users');
     var users = userBox.values.toList();
     for (var user in users) {
+      log("${user.username} ${user.password}");
       if (user.username == username && user.password == password) {
         saveUser(user);
         return user;

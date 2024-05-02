@@ -4,24 +4,29 @@ import 'package:chat_app/features/chat_screen/domain/repository/chat_repository.
 import 'package:dartz/dartz.dart';
 
 class ChatUsecase {
-  final LocalChatRepository localRepository;
-  final RemoteChatRepository remoteRepository;
+  final LocalChatRepository _localRepository;
+  final RemoteChatRepository _remoteRepository;
 
   const ChatUsecase({
-    required this.localRepository,
-    required this.remoteRepository,
-  });
+    required LocalChatRepository localRepository,
+    required RemoteChatRepository remoteRepository,
+  })  : _localRepository = localRepository,
+        _remoteRepository = remoteRepository;
 
   Future<Either<Failure, List<Chat>>> fetchLocalChat() async {
-    throw Exception();
+    return _localRepository.fetchMessages();
   }
 
   void close() {
-    remoteRepository.close();
+    _remoteRepository.close();
+  }
+
+  void sendMessage(String message) {
+    _remoteRepository.sendMessage(message);
   }
 
   Stream<Either<Failure, Chat>> fetchRemoteChat() async* {
-    await for (var e in remoteRepository.fetchMessages()) {
+    await for (var e in _remoteRepository.fetchMessages()) {
       yield (e);
     }
   }

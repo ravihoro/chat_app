@@ -2,6 +2,7 @@ import 'package:chat_app/app_view.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/core/utils/injection_container.dart';
 import 'package:chat_app/features/authentication/presentation/cubit/authentication_cubit.dart';
+import 'package:chat_app/features/chat_screen/domain/entity/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,6 +12,7 @@ Future<void> main() async {
   await init();
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(ChatAdapter());
   runApp(const MyApp());
 }
 

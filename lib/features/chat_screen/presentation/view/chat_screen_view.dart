@@ -18,6 +18,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
   @override
   void initState() {
     super.initState();
+    context.read<ChatCubit>().fetchLocalMessage();
     context.read<ChatCubit>().fetchRemoteMessage();
   }
 

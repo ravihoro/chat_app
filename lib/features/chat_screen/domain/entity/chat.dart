@@ -1,17 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class Chat extends Equatable {
-  final bool isSender;
-  final String message;
+part 'chat.g.dart';
 
-  const Chat({
+@HiveType(typeId: 1)
+class Chat extends HiveObject {
+  @HiveField(0)
+  late bool isSender;
+
+  @HiveField(1)
+  late String message;
+
+  Chat({
     required this.isSender,
     required this.message,
   });
-
-  @override
-  List<Object?> get props => [
-        isSender,
-        message,
-      ];
 }
