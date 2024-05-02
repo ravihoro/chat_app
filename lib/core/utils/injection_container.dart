@@ -9,6 +9,7 @@ import 'package:chat_app/features/chat_screen/domain/usecase/chat_usecase.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_cubit.dart';
 import 'package:chat_app/features/login/presentation/bloc/login_cubit.dart';
 import 'package:chat_app/features/signup/presentation/bloc/sign_up_cubit.dart';
+import 'package:chat_app/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -17,6 +18,7 @@ Future<void> init() async {
   sl.registerFactory(() => SignUpCubit());
   sl.registerFactory(() => LoginCubit());
   sl.registerFactory(() => ChatCubit(usecase: sl<ChatUsecase>()));
+  sl.registerFactory(() => ThemeCubit());
 
   sl.registerFactory(
       () => AuthenticationCubit(usecase: sl<AuthenticationUsecase>()));

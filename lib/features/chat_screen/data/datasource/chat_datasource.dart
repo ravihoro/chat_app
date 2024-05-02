@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/chat_screen/domain/entity/chat.dart';
@@ -48,7 +47,6 @@ class ChatRemoteDatasource implements ChatDatasource<Stream<Chat>> {
   }
 
   void restartChat() async {
-    log("restarting chat");
     final userBox = await Hive.openBox<User>('logged_in_user');
     final loggedInUser = userBox.isEmpty ? null : userBox.getAt(0);
     loggedInUser!.messages = [];

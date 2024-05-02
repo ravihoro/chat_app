@@ -21,8 +21,10 @@ class ChatBubble extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: isSender ? Colors.blue : Colors.grey,
-              borderRadius: BorderRadius.circular(8.0),
+              color: isSender
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.inversePrimary,
+              borderRadius: BorderRadius.circular(5.0),
             ),
             child: Text(
               message,

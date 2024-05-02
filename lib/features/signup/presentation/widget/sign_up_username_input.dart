@@ -14,6 +14,9 @@ class SignUpUsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return CustomTextFormField(
+          prefixIcon: const Icon(
+            Icons.person,
+          ),
           fieldKey: 'signUpForm_usernameInput_textField',
           onChanged: (name) => context.read<SignUpCubit>().setUsername(name),
           labelText: 'Username',

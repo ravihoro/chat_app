@@ -6,6 +6,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String?)? onChanged;
   final bool obscureText;
   final String? errorText;
+  final Widget prefixIcon;
 
   const CustomTextFormField({
     required this.labelText,
@@ -14,17 +15,29 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     super.key,
     this.errorText,
+    required this.prefixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      key: ValueKey(fieldKey),
-      onChanged: onChanged,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        labelText: labelText,
-        errorText: errorText,
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 5,
+      ),
+      child: TextFormField(
+        key: ValueKey(fieldKey),
+        onChanged: onChanged,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+            labelText: labelText,
+            errorText: errorText,
+            prefixIcon: prefixIcon,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                50,
+              ),
+            )),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chat_app/core/error/exception.dart';
 import 'package:chat_app/core/error/failure.dart';
 import 'package:chat_app/core/model/user_model.dart';
@@ -39,7 +37,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on SignUpException catch (e) {
       return Left(SignUpFailure(error: e.toString()));
     } catch (e) {
-      log("sign up: ${e.toString()}");
       return const Left(GenericFailure());
     }
   }

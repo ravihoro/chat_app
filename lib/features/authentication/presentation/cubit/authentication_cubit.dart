@@ -45,7 +45,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String password,
   }) async {
     var either = await _usecase.login(username: username, password: password);
-    log("cubit login");
     either.fold(
       (l) => emit(
         state.copyWith(

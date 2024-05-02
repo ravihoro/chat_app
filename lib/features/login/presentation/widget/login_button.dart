@@ -1,3 +1,4 @@
+import 'package:chat_app/core/widgets/custom_elevation_button.dart';
 import 'package:chat_app/features/authentication/presentation/cubit/authentication_cubit.dart';
 import 'package:chat_app/features/login/presentation/bloc/login_cubit.dart';
 import 'package:chat_app/features/login/presentation/bloc/login_state.dart';
@@ -12,13 +13,9 @@ class LoginButton extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.isValid != current.isValid,
       builder: (context, state) {
-        return ElevatedButton(
-          key: const Key('loginForm_login_elevatedButton'),
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
+        return CustomElevatedButton(
+          buttonText: "Login",
+          keyText: 'loginForm_login_elevatedButton',
           onPressed: !state.isValid
               ? null
               : () {
@@ -28,7 +25,6 @@ class LoginButton extends StatelessWidget {
                         password: loginState.password!,
                       );
                 },
-          child: const Text('Login'),
         );
       },
     );

@@ -1,7 +1,7 @@
-import 'package:chat_app/features/authentication/presentation/cubit/authentication_cubit.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_cubit.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_state.dart';
 import 'package:chat_app/features/chat_screen/presentation/widget/chat_bubble.dart';
+import 'package:chat_app/features/chat_screen/presentation/widget/pop_up_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,39 +27,8 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chat'),
-        actions: [
-          PopupMenuButton<int>(
-            child: const Icon(
-              Icons.more_vert,
-            ),
-            onSelected: (value) {
-              if (value == 0) {
-                context.read<ChatCubit>().restartSession();
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  context.read<ChatCubit>().fetchRemoteMessage();
-                });
-              } else {
-                context.read<AuthenticationCubit>().logout();
-                context.read<ChatCubit>().closeSocket();
-              }
-            },
-            itemBuilder: (_) {
-              return const [
-                PopupMenuItem(
-                  value: 0,
-                  child: Text(
-                    'Restart Chat',
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 1,
-                  child: Text(
-                    'Logout',
-                  ),
-                )
-              ];
-            },
-          ),
+        actions: const [
+          PopUpButton(),
         ],
       ),
       body: LayoutBuilder(
@@ -89,13 +58,19 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                     Expanded(
                       child: TextFormField(
                         controller: controller,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Enter your message',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.send),
+                      icon: Icon(
+                        Icons.send,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       onPressed: () {
                         context.read<ChatCubit>().sendMessage(
                               controller.text.trim(),

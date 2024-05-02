@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chat_app/core/error/failure.dart';
 import 'package:chat_app/features/chat_screen/data/datasource/chat_datasource.dart';
 import 'package:chat_app/features/chat_screen/domain/entity/chat.dart';
@@ -39,7 +37,6 @@ class RemoteChatRepositoryImpl implements RemoteChatRepository {
         yield Right(e);
       }
     } catch (e) {
-      log("error::::: ${e.toString()}");
       yield const Left(
         ServerFailure(
           error: "Socket exception",

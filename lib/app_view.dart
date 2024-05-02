@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:chat_app/core/utils/injection_container.dart';
 import 'package:chat_app/features/authentication/presentation/cubit/authentication_cubit.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_cubit.dart';
@@ -35,7 +34,6 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) async {
-        log("listener: ${state.error}");
         if (state.error.isNotEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

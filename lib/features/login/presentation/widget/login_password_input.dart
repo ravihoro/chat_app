@@ -14,6 +14,9 @@ class LoginPasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return CustomTextFormField(
+          prefixIcon: const Icon(
+            Icons.lock,
+          ),
           obscureText: true,
           fieldKey: 'loginForm_passwordInput_textField',
           onChanged: (password) =>

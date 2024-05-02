@@ -1,3 +1,4 @@
+import 'package:chat_app/core/widgets/custom_elevation_button.dart';
 import 'package:chat_app/features/authentication/presentation/cubit/authentication_cubit.dart';
 import 'package:chat_app/features/signup/presentation/bloc/sign_up_cubit.dart';
 import 'package:chat_app/features/signup/presentation/bloc/sign_up_state.dart';
@@ -12,13 +13,9 @@ class SignUpButton extends StatelessWidget {
     return BlocBuilder<SignUpCubit, SignUpState>(
       buildWhen: ((previous, current) => previous.isValid != current.isValid),
       builder: (context, state) {
-        return ElevatedButton(
-          key: const ValueKey("signUpForm_signUp_elevatedButton"),
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
+        return CustomElevatedButton(
+          buttonText: 'Sign Up',
+          keyText: 'signUpForm_signUp_elevatedButton',
           onPressed: state.isValid
               ? () {
                   var state = context.read<SignUpCubit>().state;
@@ -28,7 +25,6 @@ class SignUpButton extends StatelessWidget {
                       );
                 }
               : null,
-          child: const Text('Sign Up'),
         );
       },
     );
