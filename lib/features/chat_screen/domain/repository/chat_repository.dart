@@ -11,5 +11,7 @@ abstract class RemoteChatRepository {
 
   void close();
 
+  void restartChat();
+
   Stream<Either<Failure, Chat>> fetchMessages();
 }

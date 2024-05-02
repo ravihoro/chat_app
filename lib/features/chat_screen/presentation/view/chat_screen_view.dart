@@ -28,14 +28,37 @@ class _ChatScreenViewState extends State<ChatScreenView> {
       appBar: AppBar(
         title: const Text('Chat'),
         actions: [
-          TextButton(
-            onPressed: () {
-              context.read<AuthenticationCubit>().logout();
-              context.read<ChatCubit>().closeSocket();
-            },
-            child: const Text(
-              'Logout',
+          PopupMenuButton<int>(
+            child: const Icon(
+              Icons.more_vert,
             ),
+            onSelected: (value) {
+              if (value == 0) {
+                context.read<ChatCubit>().restartSession();
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  context.read<ChatCubit>().fetchRemoteMessage();
+                });
+              } else {
+                context.read<AuthenticationCubit>().logout();
+                context.read<ChatCubit>().closeSocket();
+              }
+            },
+            itemBuilder: (_) {
+              return const [
+                PopupMenuItem(
+                  value: 0,
+                  child: Text(
+                    'Restart Chat',
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 1,
+                  child: Text(
+                    'Logout',
+                  ),
+                )
+              ];
+            },
           ),
         ],
       ),

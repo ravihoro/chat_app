@@ -6,8 +6,10 @@ class ChatState extends Equatable {
 
   const ChatState({this.messages = const []});
 
-  ChatState copyWith(Chat chat) {
-    return ChatState(messages: [...messages, chat]);
+  ChatState copyWith({
+    Chat? chat,
+  }) {
+    return ChatState(messages: chat == null ? [] : [...messages, chat]);
   }
 
   @override

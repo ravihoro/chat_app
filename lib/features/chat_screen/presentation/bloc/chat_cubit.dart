@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chat_app/features/chat_screen/domain/entity/chat.dart';
 import 'package:chat_app/features/chat_screen/domain/usecase/chat_usecase.dart';
 import 'package:chat_app/features/chat_screen/presentation/bloc/chat_state.dart';
@@ -17,9 +15,8 @@ class ChatCubit extends Cubit<ChatState> {
     either.fold(
       (l) => print(l.error),
       (r) {
-        log("local messages: $r");
         for (var chat in r) {
-          emit(state.copyWith(chat));
+          emit(state.copyWith(chat: chat));
         }
       },
     );
@@ -33,10 +30,15 @@ class ChatCubit extends Cubit<ChatState> {
           e.toString(),
         ),
         (r) => emit(
-          state.copyWith(r),
+          state.copyWith(chat: r),
         ),
       );
     }
+  }
+
+  void restartSession() {
+    emit(state.copyWith());
+    usecase.restartChat();
   }
 
   void closeSocket() {
@@ -45,7 +47,7 @@ class ChatCubit extends Cubit<ChatState> {
 
   void sendMessage(String message) {
     var chat = Chat(isSender: true, message: message);
-    emit(state.copyWith(chat));
+    emit(state.copyWith(chat: chat));
     usecase.sendMessage(message);
   }
 }

@@ -18,39 +18,49 @@ class ChatLocalDatasource implements ChatDatasource<Future<List<Chat>>> {
     if (loggedInUser != null) {
       var messages = loggedInUser.messages;
 
-      userBox.close();
-      log("messages:::: ${loggedInUser.username} $messages");
+      await userBox.close();
       return messages;
     }
-    log("empty messages::::");
     return [];
   }
 }
 
 class ChatRemoteDatasource implements ChatDatasource<Stream<Chat>> {
-  final _channel = IOWebSocketChannel.connect('wss://echo.websocket.org');
+  IOWebSocketChannel? _channel =
+      IOWebSocketChannel.connect('wss://echo.websocket.org');
 
   storeMessage(Chat chat) async {
     final userBox = await Hive.openBox<User>('logged_in_user');
     final loggedInUser = userBox.isEmpty ? null : userBox.getAt(0);
     loggedInUser!.messages.add(chat);
 
-    userBox.put(0, loggedInUser);
-    userBox.close();
+    await userBox.put(0, loggedInUser);
+    await userBox.close();
   }
 
   void sendMessage(String message) {
-    _channel.sink.add(message);
+    _channel?.sink.add(message);
     storeMessage(Chat(isSender: true, message: message));
   }
 
   void close() {
-    _channel.sink.close();
+    _channel?.sink.close();
+  }
+
+  void restartChat() async {
+    log("restarting chat");
+    final userBox = await Hive.openBox<User>('logged_in_user');
+    final loggedInUser = userBox.isEmpty ? null : userBox.getAt(0);
+    loggedInUser!.messages = [];
+    await userBox.put(0, loggedInUser);
+    await userBox.close();
+    _channel?.sink.close();
+    _channel = IOWebSocketChannel.connect('wss://echo.websocket.org');
   }
 
   @override
   Stream<Chat> fetchMessages() async* {
-    await for (var e in _channel.stream) {
+    await for (var e in _channel!.stream) {
       var chat = Chat(isSender: false, message: e);
       storeMessage(chat);
       yield chat;
