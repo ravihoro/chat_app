@@ -36,12 +36,6 @@ class RemoteChatRepositoryImpl implements RemoteChatRepository {
     try {
       var chatStream = datasource.fetchMessages();
 
-      // chatStream.listen(
-      //   (e) {
-      //     yield(Right(e));
-      //   },
-      // ).onError((error) {});
-
       await for (var e in chatStream) {
         yield Right(e);
       }

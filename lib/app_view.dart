@@ -13,6 +13,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationCubit, AuthenticationState>(
+      listenWhen: ((previous, current) => previous.error != current.error),
       listener: (context, state) async {
         if (state.error.isNotEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -24,6 +25,9 @@ class AppView extends StatelessWidget {
           );
         }
       },
+      buildWhen: ((previous, current) =>
+          previous.user != current.user ||
+          previous.isLoginPage != current.isLoginPage),
       builder: (context, state) {
         if (state.user == null) {
           return state.isLoginPage ? const LoginView() : const SignUpView();
