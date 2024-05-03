@@ -4,10 +4,12 @@ class SignUpState extends Equatable {
   final String? username;
   final String? password;
   final bool isValid;
+  final bool obscureText;
 
   const SignUpState({
     this.username,
     this.password,
+    this.obscureText = true,
     this.isValid = false,
   });
 
@@ -15,11 +17,13 @@ class SignUpState extends Equatable {
     String? username,
     String? password,
     bool? isValid,
+    bool? obscureText,
   }) {
     return SignUpState(
       username: username ?? this.username,
       password: password ?? this.password,
       isValid: isValid ?? this.isValid,
+      obscureText: obscureText ?? this.obscureText,
     );
   }
 
@@ -28,5 +32,6 @@ class SignUpState extends Equatable {
         username,
         password,
         isValid,
+        obscureText,
       ];
 }

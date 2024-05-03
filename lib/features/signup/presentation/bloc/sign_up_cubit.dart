@@ -17,6 +17,10 @@ class SignUpCubit extends Cubit<SignUpState> {
         isValidPassword(password) == null;
   }
 
+  void obscureText() {
+    emit(state.copyWith(obscureText: !state.obscureText));
+  }
+
   setUsername(String? username) {
     emit(
       state.copyWith(

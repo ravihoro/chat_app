@@ -11,6 +11,10 @@ class LoginCubit extends Cubit<LoginState> {
           initialState ?? const LoginState(),
         );
 
+  void obscureText() {
+    emit(state.copyWith(obscureText: !state.obscureText));
+  }
+
   bool isValid({String? username, String? password}) {
     username = username ?? state.username;
     password = password ?? state.password;

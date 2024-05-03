@@ -11,13 +11,24 @@ class LoginPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) => previous.password != current.password,
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.obscureText != current.obscureText,
       builder: (context, state) {
         return CustomTextFormField(
           prefixIcon: const Icon(
             Icons.lock,
           ),
-          obscureText: true,
+          suffix: GestureDetector(
+            onTap: () {
+              context.read<LoginCubit>().obscureText();
+            },
+            child: Icon(
+              state.obscureText ? Icons.visibility_off : Icons.visibility,
+              color: Colors.black,
+            ),
+          ),
+          obscureText: state.obscureText,
           fieldKey: 'loginForm_passwordInput_textField',
           onChanged: (password) =>
               context.read<LoginCubit>().setPassword(password),
