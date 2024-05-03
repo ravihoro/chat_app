@@ -20,8 +20,9 @@ Future<void> init() async {
   sl.registerFactory(() => ChatCubit(usecase: sl<ChatUsecase>()));
   sl.registerFactory(() => ThemeCubit());
 
-  sl.registerFactory(
-      () => AuthenticationCubit(usecase: sl<AuthenticationUsecase>()));
+  sl.registerFactory(() =>
+      AuthenticationCubit(usecase: sl<AuthenticationUsecase>())
+        ..checkIfLoggedIn());
 
   sl.registerLazySingleton(
     () => ChatUsecase(

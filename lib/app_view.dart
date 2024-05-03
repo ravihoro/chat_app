@@ -7,28 +7,8 @@ import 'package:chat_app/features/signup/presentation/view/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AppView extends StatefulWidget {
+class AppView extends StatelessWidget {
   const AppView({super.key});
-
-  @override
-  State<AppView> createState() => _AppViewState();
-}
-
-class _AppViewState extends State<AppView> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    checkIfUserIsLoggedIn();
-  }
-
-  void checkIfUserIsLoggedIn() async {
-    context.read<AuthenticationCubit>().checkIfLoggedIn();
-  }
 
   @override
   Widget build(BuildContext context) {
