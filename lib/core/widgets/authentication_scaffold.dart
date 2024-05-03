@@ -26,9 +26,11 @@ class AuthenticationScaffold<T> extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 40.0,
-                  fontWeight: FontWeight.w300,
+                  fontFamily: 'DancingScript',
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               child,
@@ -36,16 +38,19 @@ class AuthenticationScaffold<T> extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton:
-          BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
-        return FloatingActionButton(
-          child: Icon(
-              state.themeData == lightTheme ? Icons.nightlight : Icons.sunny),
-          onPressed: () {
-            context.read<ThemeCubit>().setTheme();
-          },
-        );
-      }),
+      floatingActionButton: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return FloatingActionButton(
+            shape: const CircleBorder(),
+            child: Icon(
+              state.themeData == lightTheme ? Icons.nightlight : Icons.sunny,
+            ),
+            onPressed: () {
+              context.read<ThemeCubit>().setTheme();
+            },
+          );
+        },
+      ),
     );
   }
 }
