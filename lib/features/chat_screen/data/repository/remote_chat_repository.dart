@@ -36,12 +36,18 @@ class RemoteChatRepositoryImpl implements RemoteChatRepository {
     try {
       var chatStream = datasource.fetchMessages();
 
+      // chatStream.listen(
+      //   (e) {
+      //     yield(Right(e));
+      //   },
+      // ).onError((error) {});
+
       await for (var e in chatStream) {
         yield Right(e);
       }
     } catch (e) {
       log("fetch message: ${e.toString()}");
-      print("fetch message: ${e.toString()}");
+      //("fetch message: ${e.toString()}");
       yield const Left(
         ServerFailure(
           error: "Socket exception",

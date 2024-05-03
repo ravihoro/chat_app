@@ -36,63 +36,59 @@ class _ChatScreenViewState extends State<ChatScreenView> {
           PopUpButton(),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Column(
-            children: <Widget>[
-              Expanded(
-                child: BlocBuilder<ChatCubit, ChatState>(
-                  builder: (context, state) {
-                    return ListView.builder(
-                      itemCount: state.messages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var chat = state.messages[index];
-                        return ChatBubble(
-                          isSender: chat.isSender,
-                          message: chat.message,
-                        );
-                      },
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: BlocBuilder<ChatCubit, ChatState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var chat = state.messages[index];
+                    return ChatBubble(
+                      isSender: chat.isSender,
+                      message: chat.message,
                     );
                   },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextFormField(
-                        controller: controller,
-                        decoration: InputDecoration(
-                          hintText: 'Enter your message',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your message',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.send,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () {
-                        if (controller.text.trim().isNotEmpty) {
-                          context.read<ChatCubit>().sendMessage(
-                                controller.text.trim(),
-                              );
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.send,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  onPressed: () {
+                    if (controller.text.trim().isNotEmpty) {
+                      context.read<ChatCubit>().sendMessage(
+                            controller.text.trim(),
+                          );
 
-                          controller.clear();
-                        }
-                        FocusScope.of(context).unfocus();
-                      },
-                    ),
-                  ],
+                      controller.clear();
+                    }
+                    FocusScope.of(context).unfocus();
+                  },
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

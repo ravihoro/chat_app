@@ -60,7 +60,6 @@ class ChatRemoteDatasource implements ChatDatasource<Stream<Chat>> {
   @override
   Stream<Chat> fetchMessages() async* {
     log("fetch messages called");
-    print("fetch messages called");
     //_channel = IOWebSocketChannel.connect('wss://echo.websocket.org');
     _channel = WebSocket(Uri.parse('wss://echo.websocket.org'));
 
