@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:chat_app/core/error/exception.dart';
 import 'package:chat_app/core/model/user_model.dart';
+import 'package:chat_app/core/utils/string_constants.dart';
 import 'package:hive/hive.dart';
 
 abstract class AuthenticationDatasource {
@@ -22,9 +21,8 @@ abstract class AuthenticationDatasource {
 
 class AuthenticationLocalDatasource implements AuthenticationDatasource {
   saveUser(User user) async {
-    final userBox = await Hive.openBox<User>('logged_in_user');
+    final userBox = await Hive.openBox<User>(StringConstants.loggedInUser);
     await userBox.clear();
-    log("save user: ${user.messages.length}");
     await userBox.add(
       User(
         username: user.username,
@@ -40,7 +38,7 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
     required String username,
     required String password,
   }) async {
-    var userBox = await Hive.openBox<User>('users');
+    var userBox = await Hive.openBox<User>(StringConstants.users);
     var users = userBox.values.toList();
     for (var user in users) {
       if (user.username == username && user.password == password) {
@@ -58,7 +56,7 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
     required String username,
     required String password,
   }) async {
-    var userBox = await Hive.openBox<User>('users');
+    var userBox = await Hive.openBox<User>(StringConstants.users);
 
     var existingUsers =
         userBox.values.where((user) => user.username == username);
@@ -77,7 +75,7 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
 
   @override
   Future<User> checkIfLoggedIn() async {
-    final userBox = await Hive.openBox<User>('logged_in_user');
+    final userBox = await Hive.openBox<User>(StringConstants.loggedInUser);
     final loggedInUser = userBox.isEmpty ? null : userBox.getAt(0);
     userBox.close();
 
@@ -90,14 +88,13 @@ class AuthenticationLocalDatasource implements AuthenticationDatasource {
 
   @override
   Future<void> logout() async {
-    final userBox = await Hive.openBox<User>('logged_in_user');
+    final userBox = await Hive.openBox<User>(StringConstants.loggedInUser);
 
-    final usersBox = await Hive.openBox<User>('users');
+    final usersBox = await Hive.openBox<User>(StringConstants.users);
 
     var currentUser = userBox.values.first;
 
     for (var e in usersBox.values) {
-      log("e: ${e.messages.length} current: ${currentUser.messages.length}");
       if (e.username == currentUser.username) {
         e.messages = currentUser.messages;
 
